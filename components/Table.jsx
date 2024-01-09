@@ -35,38 +35,40 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="rounded-md border">
-      <Table className="w-full">
-        <TableHeader className="">
+      <table className="w-full">
+        <tr>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow className=" " key={headerGroup.id}>
+            <>
+              {" "}
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="" key={header.id}>
+                  <th
+                    className="h-[20px] flex-1 font-normal text-start p-0 py-[10px]"
+                    key={header.id}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
                           header.getContext()
                         )}
-                  </TableHead>
+                  </th>
                 );
               })}
-            </TableRow>
+            </>
           ))}
-        </TableHeader>
-        <TableBody>
+        </tr>
+
+        <tbody className="px-[12px]">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
+              <tr key={row.id} data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
+                  <td key={cell.id} className="h-[20px] py-[14px]">
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                  </td>
                 ))}
-              </TableRow>
+              </tr>
             ))
           ) : (
             <TableRow>
@@ -75,8 +77,8 @@ export function DataTable({ columns, data }) {
               </TableCell>
             </TableRow>
           )}
-        </TableBody>
-      </Table>
+        </tbody>
+      </table>
     </div>
   );
 }
