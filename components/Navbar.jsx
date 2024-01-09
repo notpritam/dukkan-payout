@@ -5,12 +5,12 @@ import NavbarComponent from "./NavbarComponent";
 const Navbar = () => {
   return (
     <div className="w-[224px] bg-[#1E2640] flex flex-col gap-4 py-4 px-[10px] h-full">
-      <div className=" w-full flex-1">
+      <div className=" w-full flex-1 flex flex-col gap-[24px]">
         <div className="flex gap-3 items-center text-white w-full">
           <div className="h-[40px] w-[40px] flex items-center justify-center bg-white rounded-sm">
             <Image src={"/Navbar/Image.png"} height={39} width={39} />
           </div>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 flex-1">
             <span className="text-[15px] font-medium leading-[22px]">
               Nishyan
             </span>
