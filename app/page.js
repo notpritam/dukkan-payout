@@ -15,15 +15,40 @@ import { DataTable, PaginationSection } from "@/components/Table";
 import { DataTableDemo } from "@/components/DataTableDemo";
 import { useEffect, useState } from "react";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 export default function Home() {
+  const [dateFilter, setDateFilter] = useState(false);
+
   const data = [];
+  const months = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ];
+
   for (let i = 0; i < 500; i++) {
+    const randomDay = Math.floor(Math.random() * 28) + 1; // random day between 1 and 28
+    const randomMonth = months[Math.floor(Math.random() * 12)]; // random month
+    const randomYear = Math.floor(Math.random() * 5) + 2020; // random year between 2020 and 2024
+    const randomId = Math.floor(Math.random() * 10000) + 23343; // random ID
+    const randomAmount = Math.floor(Math.random() * 10000) + 23000; // random amount
+    const randomFee = Math.floor(Math.random() * 100) + 22; // random fee
+
     data.push({
-      orderId: "#" + (23343 + i),
-      orderDate: `12 Dec 20${23 + Math.floor(i / 4)}`,
-      orderAmount: `₹${23_000 + i * 100}`,
-      transcationFee: `₹${22 + i}`,
+      orderId: "#" + randomId,
+      orderDate: `${randomDay} ${randomMonth} ${randomYear}`,
+      orderAmount: `₹${randomAmount}`,
+      transcationFee: `₹${randomFee}`,
     });
   }
   const columns = [
@@ -48,7 +73,13 @@ export default function Home() {
       header: () => (
         <div className="flex items-center gap-[2px] flex-1">
           <span>Order date</span>
-          <Image src={"/Main/table-down.svg"} height={8} width={8} />
+          <Image
+            onClick={() => setDateFilter(!dateFilter)}
+            src={"/Main/table-down.svg"}
+            className={cn(dateFilter && "transform rotate-180")}
+            height={8}
+            width={8}
+          />
         </div>
       ),
     },
@@ -91,7 +122,7 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(20);
 
   const lastIndexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = lastIndexOfLastItem - itemsPerPage;
@@ -102,13 +133,26 @@ export default function Home() {
       return item.orderId.toLowerCase().includes(searchValue.toLowerCase());
     });
 
-    setFilterData(searchedData);
-  }, [searchValue]);
+    const dateFilteredData = searchedData.sort((a, b) => {
+      const dateA = new Date(a.orderDate);
+      const dateB = new Date(b.orderDate);
+
+      if (dateFilter) {
+        // Ascending order
+        return dateA - dateB;
+      } else {
+        // Descending order
+        return dateB - dateA;
+      }
+    });
+
+    setFilterData(dateFilteredData);
+  }, [searchValue, dateFilter]);
 
   return (
     <main className="h-screen w-screen flex overflow-hidden ">
       <Navbar />
-      <main className="w-full flex flex-col h-screen">
+      <main className="w-full flex flex-col h-full pb-[32px]">
         <div className="h-[64px] border-b-[1px] border-[#D9D9D9] px-[32px] py-[12px] w-full flex gap-4">
           <div className="bg-white w-full flex gap-4 items-center">
             <span className=" text-[15px]  leading-[22px] ">Payments</span>
@@ -132,7 +176,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="m-[32px] h-full flex flex-col">
+        <div className="p-[32px] pb-[0]  flex flex-col">
           <div className="flex justify-between">
             <span className="text-[#1A181E] font-medium leading-[28px] text-[20px]">
               Overview
@@ -169,7 +213,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="p-[12px] pb-[24px] flex-1 bg-white flex flex-col  h-full">
+          <div className="p-[12px] flex-1 bg-white flex flex-col  h-full">
             <div className="flex justify-between mb-[12px]">
               <div className="px-[16px] py-[10px] border-[1px] border-[#D9D9D9] flex gap-2 items-center rounded-[6px]">
                 <Image src={"/Main/tableSearch.svg"} height={16} width={16} />
@@ -191,17 +235,15 @@ export default function Home() {
                 </div>
               </div>
             </div>
-
-            <DataTable columns={columns} data={currentItems} />
-
-            <PaginationSection
-              totalItems={filterData.length}
-              itemsPerPage={itemsPerPage}
-              currentPage={currentPage}
-              setCurrentPage={setCurrentPage}
-            />
           </div>
         </div>
+        <DataTable columns={columns} data={currentItems} />
+        <PaginationSection
+          totalItems={filterData.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
+        />
       </main>
     </main>
   );

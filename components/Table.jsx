@@ -34,8 +34,8 @@ export function DataTable({ columns, data }) {
   });
 
   return (
-    <div className="rounded-md border w-full h-full flex-grow overflow-hidden flex flex-col ">
-      <table className="w-full flex-grow  h-[300px]">
+    <div className="rounded-md p-[32px] pt-[0] border w-full h-full flex-grow-0 overflow-hidden flex flex-col ">
+      <table className="w-full flex-grow overflow-y-scroll block ">
         <tr className="w-full bg-white sticky top-0 flex px-[12px] py-[10px] gap-[40px]">
           {table.getHeaderGroups().map((headerGroup) => (
             <>
@@ -59,7 +59,7 @@ export function DataTable({ columns, data }) {
           ))}
         </tr>
 
-        <tbody className="">
+        <tbody className="w-full flex flex-col">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <tr
