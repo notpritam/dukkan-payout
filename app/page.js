@@ -17,7 +17,7 @@ import { useEffect, useState } from "react";
 
 export default function Home() {
   const data = [];
-  for (let i = 0; i < 100; i++) {
+  for (let i = 0; i < 500; i++) {
     data.push({
       orderId: "#" + (23343 + i),
       orderDate: `12 Dec 20${23 + Math.floor(i / 4)}`,
@@ -86,7 +86,7 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [itemsPerPage, setItemsPerPage] = useState(9);
 
   const lastIndexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = lastIndexOfLastItem - itemsPerPage;
@@ -164,35 +164,37 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="flex justify-between">
-            <div className="bg-white w-full flex gap-2 items-center rounded-[6px]">
-              <Image src={"/Main/search.svg"} height={16} width={16} />
-              <Input
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-                className="h-[22px] p-0 rounded-none "
-                placeholder="Search by order ID..."
-              />
+          <div className="p-[12px] pb-[24px]">
+            <div className="flex justify-between mb-[12px]">
+              <div className="bg-white  flex gap-2 items-center rounded-[6px]">
+                <Image src={"/Main/search.svg"} height={16} width={16} />
+                <Input
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                  className="h-[22px] w-auto p-0 rounded-none "
+                  placeholder="Search by order ID..."
+                />
+              </div>
+
+              <div className="flex gap-[12px]">
+                <div className="h-[36px] flex items-center gap-[6px] px-[12px] py-[6px] rounded-sm border-[1px] border-[#D9D9D9]">
+                  <span className="leading-[24px] text-[#4D4D4D]">Sort</span>
+                  <Image src={"/Main/arrow.svg"} height={16} width={16} />
+                </div>
+                <div className="h-[36px] flex items-center gap-[6px] p-2 rounded-sm border-[1px] border-[#D9D9D9]">
+                  <Image src={"/Main/download.svg"} height={20} width={20} />
+                </div>
+              </div>
             </div>
 
-            <div className="flex gap-[12px]">
-              <div className="h-[36px] flex items-center gap-[6px] px-[12px] py-[6px] rounded-sm border-[1px] border-[#D9D9D9]">
-                <span className="leading-[24px] text-[#4D4D4D]">Sort</span>
-                <Image src={"/Main/arrow.svg"} height={16} width={16} />
-              </div>
-              <div className="h-[36px] flex items-center gap-[6px] p-2 rounded-sm border-[1px] border-[#D9D9D9]">
-                <Image src={"/Main/download.svg"} height={20} width={20} />
-              </div>
-            </div>
+            <DataTable columns={columns} data={currentItems} />
+            <PaginationSection
+              totalItems={filterData.length}
+              itemsPerPage={itemsPerPage}
+              currentPage={currentPage}
+              setCurrentPage={setCurrentPage}
+            />
           </div>
-
-          <DataTable columns={columns} data={filterData} />
-          <PaginationSection
-            totalItems={data.length}
-            itemsPerPage={5}
-            currentPage={1}
-            setCurrentPage={1}
-          />
         </div>
       </main>
     </main>

@@ -24,6 +24,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 export function DataTable({ columns, data }) {
   const table = useReactTable({
@@ -34,13 +35,13 @@ export function DataTable({ columns, data }) {
 
   return (
     <div className="rounded-md border">
-      <Table>
-        <TableHeader>
+      <Table className="w-full">
+        <TableHeader className="">
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow className=" " key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead className="" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -91,20 +92,82 @@ export const PaginationSection = ({
   for (let i = 1; i <= Math.ceil(totalItems / itemsPerPage); i++) {
     pages.push(i);
   }
+
+  const handleNextPage = () => {
+    if (currentPage < pages.length) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
   return (
     <Pagination>
-      <PaginationContent>
+      <PaginationContent className="gap-[8px]">
         <PaginationItem>
-          <PaginationPrevious href="#" />
+          <PaginationPrevious
+            className={cn(
+              currentPage == 1 ? "bg-muted opacity-45 mr-[20px]" : ""
+            )}
+            onClick={() => handlePreviousPage()}
+          />
         </PaginationItem>
-        <PaginationItem>
-          <PaginationLink href="#">1</PaginationLink>
-        </PaginationItem>
+        {currentPage != 1 && (
+          <div
+            className={cn(
+              currentPage == 1
+                ? "bg-blue-600 text-white font-medium leading-[20px] text-[14px] "
+                : " text-[#4D4D4D] font-normal"
+            )}
+            onClick={() => setCurrentPage(1)}
+          >
+            1
+          </div>
+        )}
+        {currentPage > 2 && (
+          <PaginationItem>
+            <PaginationEllipsis />
+          </PaginationItem>
+        )}
+        {pages
+          .filter((page, index) => {
+            const pagesAhead = pages.length - currentPage;
+            if (pagesAhead >= 8) {
+              return page >= currentPage && page < currentPage + 8;
+            } else {
+              const startPage = pages.length - 7 > 0 ? pages.length - 7 : 1;
+              return page >= startPage && page <= pages.length;
+            }
+          })
+          .map((page, index) => {
+            return (
+              <div
+                onClick={() => setCurrentPage(page)}
+                className={cn(
+                  currentPage == page
+                    ? "px-[8px] py-[6px] h-[28px] w-[28px] flex justify-center items-center rounded-sm bg-[#146EB4] text-white"
+                    : "",
+                  ""
+                )}
+                key={index + 1}
+              >
+                <div>{page}</div>
+              </div>
+            );
+          })}
         <PaginationItem>
           <PaginationEllipsis />
         </PaginationItem>
         <PaginationItem>
-          <PaginationNext href="#" />
+          <PaginationNext
+            className={cn(
+              currentPage == pages.length ? "bg-muted opacity-45 ml-[20px]" : ""
+            )}
+            onClick={() => handleNextPage()}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>
