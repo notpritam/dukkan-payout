@@ -14,6 +14,7 @@ import MainStat from "@/components/MainStat";
 import { DataTable, PaginationSection } from "@/components/Table";
 import { DataTableDemo } from "@/components/DataTableDemo";
 import { useEffect, useState } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function Home() {
   const data = [];
@@ -35,7 +36,11 @@ export default function Home() {
       ),
       cell: ({ row }) => {
         const orderId = row.getValue("orderId");
-        return <span className="text-[#146EB4]">{orderId}</span>;
+        return (
+          <span className="text-[#146EB4] font-medium text-[14px] leading-[20px]">
+            {orderId}
+          </span>
+        );
       },
     },
     {
@@ -86,7 +91,7 @@ export default function Home() {
   const [searchValue, setSearchValue] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   const lastIndexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = lastIndexOfLastItem - itemsPerPage;
@@ -101,9 +106,9 @@ export default function Home() {
   }, [searchValue]);
 
   return (
-    <main className="h-screen w-screen flex ">
+    <main className="h-screen w-screen flex overflow-hidden ">
       <Navbar />
-      <main className="w-full h-full">
+      <main className="w-full flex flex-col h-screen">
         <div className="h-[64px] border-b-[1px] border-[#D9D9D9] px-[32px] py-[12px] w-full flex gap-4">
           <div className="bg-white w-full flex gap-4 items-center">
             <span className=" text-[15px]  leading-[22px] ">Payments</span>
@@ -127,7 +132,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="m-[32px]">
+        <div className="m-[32px] h-full flex flex-col">
           <div className="flex justify-between">
             <span className="text-[#1A181E] font-medium leading-[28px] text-[20px]">
               Overview
@@ -164,14 +169,14 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="p-[12px] pb-[24px]">
+          <div className="p-[12px] pb-[24px] flex-1 bg-white flex flex-col  h-full">
             <div className="flex justify-between mb-[12px]">
-              <div className="bg-white  flex gap-2 items-center rounded-[6px]">
-                <Image src={"/Main/search.svg"} height={16} width={16} />
+              <div className="px-[16px] py-[10px] border-[1px] border-[#D9D9D9] flex gap-2 items-center rounded-[6px]">
+                <Image src={"/Main/tableSearch.svg"} height={16} width={16} />
                 <Input
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
-                  className="h-[22px] w-auto p-0 rounded-none "
+                  className="h-[22px] placeholder:text-[#999999] w-auto p-0 rounded-none "
                   placeholder="Search by order ID..."
                 />
               </div>
@@ -188,6 +193,7 @@ export default function Home() {
             </div>
 
             <DataTable columns={columns} data={currentItems} />
+
             <PaginationSection
               totalItems={filterData.length}
               itemsPerPage={itemsPerPage}

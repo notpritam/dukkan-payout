@@ -34,16 +34,16 @@ export function DataTable({ columns, data }) {
   });
 
   return (
-    <div className="rounded-md border">
-      <table className="w-full">
-        <tr>
+    <div className="rounded-md border w-full h-full flex-grow overflow-hidden flex flex-col ">
+      <table className="w-full flex-grow  h-[300px]">
+        <tr className="w-full bg-white sticky top-0 flex px-[12px] py-[10px] gap-[40px]">
           {table.getHeaderGroups().map((headerGroup) => (
             <>
               {" "}
               {headerGroup.headers.map((header) => {
                 return (
                   <th
-                    className="h-[20px] flex-1 font-normal text-start p-0 py-[10px]"
+                    className="h-[20px] text-[#4D4D4D] font-medium flex-1 leading-[20px] text-[14px] text-start"
                     key={header.id}
                   >
                     {header.isPlaceholder
@@ -59,12 +59,19 @@ export function DataTable({ columns, data }) {
           ))}
         </tr>
 
-        <tbody className="px-[12px]">
+        <tbody className="">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <tr key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <tr
+                className="w-full px-[12px] py-[14px] flex gap-[40px] justify-between"
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
                 {row.getVisibleCells().map((cell) => (
-                  <td key={cell.id} className="h-[20px] py-[14px]">
+                  <td
+                    key={cell.id}
+                    className="flex-1 h-[20px] text-[#1A181E] text-[14px]"
+                  >
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </td>
                 ))}
@@ -121,7 +128,7 @@ export const PaginationSection = ({
           <div
             className={cn(
               currentPage == 1
-                ? "bg-blue-600 text-white font-medium leading-[20px] text-[14px] "
+                ? "bg-blue-600 cursor-pointer text-white font-medium leading-[20px] text-[14px] "
                 : " text-[#4D4D4D] font-normal"
             )}
             onClick={() => setCurrentPage(1)}
@@ -150,13 +157,13 @@ export const PaginationSection = ({
                 onClick={() => setCurrentPage(page)}
                 className={cn(
                   currentPage == page
-                    ? "px-[8px] py-[6px] h-[28px] w-[28px] flex justify-center items-center rounded-sm bg-[#146EB4] text-white"
+                    ? "px-[8px] py-[6px] h-[28px] cursor-pointer w-[28px] flex justify-center items-center rounded-sm bg-[#146EB4] text-white"
                     : "",
                   ""
                 )}
                 key={index + 1}
               >
-                <div>{page}</div>
+                <span className="cursor-pointer text-[14px]">{page}</span>
               </div>
             );
           })}
@@ -166,7 +173,9 @@ export const PaginationSection = ({
         <PaginationItem>
           <PaginationNext
             className={cn(
-              currentPage == pages.length ? "bg-muted opacity-45 ml-[20px]" : ""
+              currentPage == pages.length
+                ? "bg-muted opacity-45 ml-[20px] text-[14px] border-[1px] border-[#D9D9D9]"
+                : ""
             )}
             onClick={() => handleNextPage()}
           />
