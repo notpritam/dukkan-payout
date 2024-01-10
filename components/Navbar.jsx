@@ -6,7 +6,7 @@ import { Menu } from "lucide-react";
 const Navbar = () => {
   return (
     <div className="w-full lg:w-[224px] bg-[#1E2640] items-center  flex lg:flex-col gap-4 py-4 px-[10px] h-full">
-      <Menu className="text-white h-[24px] w-[24px]" />
+      <Menu className="lg:hidden text-white h-[24px] w-[24px]" />
       <div className="w-full flex-1 flex lg:flex-col gap-[24px]">
         <div className="flex gap-3 items-center  text-white lg:w-full">
           <div className="h-[40px] w-[40px] flex items-center justify-center bg-white rounded-sm">
