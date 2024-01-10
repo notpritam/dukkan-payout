@@ -150,7 +150,7 @@ export default function Home() {
   }, [searchValue, dateFilter]);
 
   return (
-    <main className="h-screen w-screen flex overflow-hidden ">
+    <main className="h-screen w-screen flex flex-col lg:flex-row lg:overflow-hidden ">
       <Navbar />
       <main className="w-full flex flex-col h-full pb-[32px]">
         <div className="h-[64px] border-b-[1px] border-[#D9D9D9] px-[32px] py-[12px] w-full flex gap-4">

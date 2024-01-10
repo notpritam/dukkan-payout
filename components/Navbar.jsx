@@ -1,12 +1,14 @@
 import Image from "next/image";
 import React from "react";
 import NavbarComponent from "./NavbarComponent";
+import { Menu } from "lucide-react";
 
 const Navbar = () => {
   return (
-    <div className="w-[224px] bg-[#1E2640] flex flex-col gap-4 py-4 px-[10px] h-full">
-      <div className=" w-full flex-1 flex flex-col gap-[24px]">
-        <div className="flex gap-3 items-center text-white w-full">
+    <div className="w-full lg:w-[224px] bg-[#1E2640] items-center  flex lg:flex-col gap-4 py-4 px-[10px] h-full">
+      <Menu className="text-white h-[24px] w-[24px]" />
+      <div className="w-full flex-1 flex lg:flex-col gap-[24px]">
+        <div className="flex gap-3 items-center  text-white lg:w-full">
           <div className="h-[40px] w-[40px] flex items-center justify-center bg-white rounded-sm">
             <Image src={"/Navbar/Image.png"} height={39} width={39} />
           </div>
@@ -20,7 +22,7 @@ const Navbar = () => {
           </div>
           <Image src={"/Navbar/arrow-down.svg"} height={20} width={20} />
         </div>
-        <div className="flex flex-col gap-1">
+        <div className=" hidden lg:flex  lg:flex-col gap-1">
           <NavbarComponent name="Home" icon="wallet" status={false} />
           <NavbarComponent name="Orders" icon="orders" status={false} />
           <NavbarComponent name="Products" icon="products" status={false} />
