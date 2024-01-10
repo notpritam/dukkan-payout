@@ -156,7 +156,7 @@ export default function Home() {
         <div className="h-[64px] border-b-[1px] border-[#D9D9D9] px-[32px] py-[12px] w-full flex gap-4">
           <div className="bg-white w-full flex gap-4 items-center">
             <span className=" text-[15px]  leading-[22px] ">Payments</span>
-            <div className="flex items-center gap-[6px]">
+            <div className="hidden lg:flex items-center gap-[6px]">
               <Image src={"/Main/question.svg"} height={14} width={14} />
               <span className="text-[#4D4D4D]">How it works</span>
             </div>
